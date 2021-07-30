@@ -24,7 +24,7 @@ services:
       - app-network
     command: ./wait-for.sh db:27017 -- /home/node/app/node_modules/.bin/nodemon /home/node/app/src/app.js
   db:
-    image: mongo:4.1.8-xenial
+    image: mongo:latest
     container_name: db
     restart: unless-stopped
     env_file: .env
