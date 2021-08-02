@@ -1,19 +1,38 @@
-const { readingGetModel, readingPostModel } = require('../models/readings.model');
+const { ReadingSchema } = require('../models/readings.model');
 
 const readingGetController = (request, response, next) => {
-  const {product_id: productId} = request.params;
+  const {limit, offset, product_id, server_id} = request.params;
 
-  const data = readingGetModel(productId);
+  const filters = {
+    ...product_id && ({product_id}),
+    ...server_id && ({server_id}),
+  };
 
-  response.status(200).json({data});
+  const ubication = {
+    skip: parseInt(offset), 
+    limit: parseInt(limit)
+  };
+
+  ReadingSchema.find(filters, null, ubication).exec(function (err, readings) {
+    if (err) {
+      return response.status(500).send(err);
+    }
+    response.status(200).json({readings});
+  });
 };
 
 const readingPostController = (request, response, next) => {
-  console.log(request);
+  const reading = request.body;
 
-  const data = readingPostModel("OK");
+  const newReading = new ReadingSchema(reading);
 
-  response.status(200).json({test: data});
+  newReading.save((err) => {
+    if(err) {
+      response.status(400).send('READING_POST_ERROR');
+    } else {
+      response.status(200).json({ reading_id: newReading.register_id });
+    }
+  });
 }
 
 module.exports = { readingGetController, readingPostController };

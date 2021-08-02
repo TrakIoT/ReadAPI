@@ -3,7 +3,7 @@ const { readingGetController, readingPostController } = require('../controllers/
 
 const router = express.Router();
 
-router.get('/product/:product_id', readingGetController);
+router.get('/limit/:limit/offset/:offset/filters/:product_id?/:server_id?', readingGetController);
 router.post('/', readingPostController);
 
 router.use(function(req, res, next) {
