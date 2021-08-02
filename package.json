@@ -5,6 +5,10 @@
   "author": "katjuell <kathleenjuell@gmail.com>",
   "license": "MIT",
   "main": "app.js",
+  "scripts": {
+    "apply-migrations": "docker-compose run dbmate && docker-compose run dwh_dbmate",
+    "new-migration": "docker-compose run dbmate new --"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/katjuell/nodejs-image-demo.git"
@@ -15,8 +19,13 @@
     "express"
   ],
   "dependencies": {
+    "@types/express": "^4.17.0",
+    "@types/express-jwt": "0.0.42",
     "ejs": "^2.6.1",
-    "express": "^4.16.4",
+    "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
+    "express-prom-bundle": "^6.0.0",
+    "express-validator": "6.11.1",
     "mongoose": "^5.4.10"
   },
   "devDependencies": {
