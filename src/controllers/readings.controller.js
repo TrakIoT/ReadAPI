@@ -1,12 +1,13 @@
 const { ReadingSchema } = require('../models/readings.model');
 
 const readingGetByIdController = (request, response, next) => {
-  const {register_id: registerId} = request.params;
+  const {register_id} = request.params;
 
-  ReadingSchema.find({register_id: registerId}).exec(function (err, registers) {
+  ReadingSchema.find({register_id}).exec(function (err, registers) {
     if (err) {
       return response.status(500).send(err);
     }
+    
     response.status(200).json(registers[0]);
   });
 };
@@ -35,11 +36,12 @@ const readingsGetController = (request, response, next) => {
 const readingPostController = (request, response, next) => {
   const reading = request.body;
 
+  console.log(reading);
   const newReading = new ReadingSchema(reading);
 
   newReading.save((err) => {
     if(err) {
-      response.status(400).send('READING_POST_ERROR');
+      response.status(400).send({message: 'READING_POST_ERROR', err});
     } else {
       response.status(200).json({ register_id: newReading.register_id });
     }
