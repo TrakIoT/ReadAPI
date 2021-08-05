@@ -19,8 +19,6 @@ services:
     volumes:
       - .:/home/node/app
       - node_modules:/home/node/app/node_modules
-    networks:
-      - read-network
     command: ./wait-for.sh read-db:27017 -- /home/node/app/node_modules/.bin/nodemon /home/node/app/src/app.js
   read-db:
     image: mongo:latest
@@ -32,13 +30,10 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
     volumes:
       - dbdata:/data/db
-    networks:
-      - read-network
-        
-networks:
-  read-network:
-    driver: bridge
-
+networks: 
+  default: 
+    external: 
+      name: trakiot
 volumes:
   dbdata:
   node_modules:
