@@ -12,11 +12,11 @@ const readingGetByIdController = (request, response, next) => {
 };
 
 const readingsGetController = (request, response, next) => {
-  const {limit, offset, product_id: productId, server_id: serverId} = request.params;
+  const {limit, offset, product_id, server_id} = request.params;
 
   const filters = {
-    ...productId && ({productId}),
-    ...serverId && ({serverId}),
+    ...product_id && ({product_id}),
+    ...server_id && ({server_id}),
   };
 
   const ubication = {
@@ -41,7 +41,7 @@ const readingPostController = (request, response, next) => {
     if(err) {
       response.status(400).send('READING_POST_ERROR');
     } else {
-      response.status(200).json({ reading_id: newReading.register_id });
+      response.status(200).json({ register_id: newReading.register_id });
     }
   });
 }
