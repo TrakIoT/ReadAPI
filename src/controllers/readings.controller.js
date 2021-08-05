@@ -1,11 +1,22 @@
 const { ReadingSchema } = require('../models/readings.model');
 
-const readingGetController = (request, response, next) => {
-  const {limit, offset, product_id, server_id} = request.params;
+const readingGetByIdController = (request, response, next) => {
+  const {register_id: registerId} = request.params;
+
+  ReadingSchema.find({register_id: registerId}).exec(function (err, registers) {
+    if (err) {
+      return response.status(500).send(err);
+    }
+    response.status(200).json(registers[0]);
+  });
+};
+
+const readingsGetController = (request, response, next) => {
+  const {limit, offset, product_id: productId, server_id: serverId} = request.params;
 
   const filters = {
-    ...product_id && ({product_id}),
-    ...server_id && ({server_id}),
+    ...productId && ({productId}),
+    ...serverId && ({serverId}),
   };
 
   const ubication = {
@@ -35,4 +46,4 @@ const readingPostController = (request, response, next) => {
   });
 }
 
-module.exports = { readingGetController, readingPostController };
+module.exports = { readingGetByIdController, readingsGetController, readingPostController };

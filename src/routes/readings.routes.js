@@ -1,9 +1,12 @@
 const express = require('express');
-const { readingGetController, readingPostController } = require('../controllers/readings.controller');
+const { readingGetByIdController, readingsGetController, readingPostController } = require('../controllers/readings.controller');
 
 const router = express.Router();
 
-router.get('/limit/:limit/offset/:offset/filters/:product_id?/:server_id?', readingGetController);
+router.get('/:register_id', readingGetByIdController);
+router.get('/limit/:limit/offset/:offset/filters', readingsGetController);
+router.get('/limit/:limit/offset/:offset/filters/:product_id', readingsGetController);
+router.get('/limit/:limit/offset/:offset/filters/:product_id/:server_id', readingsGetController);
 router.post('/', readingPostController);
 
 module.exports = router;
